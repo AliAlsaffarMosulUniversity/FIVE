@@ -225,6 +225,10 @@ button:focus-visible{outline-color:var(--btn)}
 .sheet details{border:2px solid var(--line);border-radius:14px;padding:8px 12px}
 .sheet summary{font-family:var(--display);font-weight:700;cursor:pointer}
 .siteurl{direction:ltr;text-align:center;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:8px;font-family:system-ui,sans-serif;font-size:.9rem;word-break:break-all;user-select:all}
+/* visitors */
+.visits{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.vchip{display:flex;align-items:center;gap:8px;background:var(--paper);border:2px solid var(--line);border-radius:999px;padding:4px 16px;font-family:var(--display);font-weight:700}
+.vchip b{color:var(--btn);font-variant-numeric:tabular-nums;font-size:1.15rem}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -539,6 +543,23 @@ function install(){
   installHelp();
 }
 
+/* ---------- visitors counter ---------- */
+const CNT="https://abacus.jasoncameron.dev",NS="alialsaffarmosuluniversity-five";
+let stats=null;
+function flag(store,k){try{if(store.getItem(k))return true;store.setItem(k,"1")}catch(e){}return false}
+async function loadStats(){
+  if(!onSite())return;
+  try{
+    const newVisitor=!flag(localStorage,"sci5-visitor"),newVisit=!flag(sessionStorage,"sci5-visit");
+    const get=async(key,hit)=>{const r=await fetch(`${CNT}/${hit?"hit":"get"}/${NS}/${key}`);if(!r.ok)throw 0;return (await r.json()).value};
+    const [v,o]=await Promise.all([get("visitors",newVisitor),get("visits",newVisit)]);
+    stats={v,o};paintStats();
+  }catch(e){}
+}
+const fmt=n=>Number(n).toLocaleString("ar-IQ");
+function paintStats(){const el=document.getElementById("visits");if(!el||!stats)return;
+  el.innerHTML=`<span class="vchip">👥 عدد الزوار <b>${fmt(stats.v)}</b></span><span class="vchip">👁️ مرات الفتح <b>${fmt(stats.o)}</b></span>`;el.hidden=false}
+
 /* ---------- state ---------- */
 const KEY="sci5-best-v1";
 let best={};
@@ -579,11 +600,13 @@ function home(){
   });
   if(!isStandalone())h+=`<section class="installcard needinstall"><span class="em">📲</span><span><h3>ثبّت التطبيق على جهازك</h3><p>على الهاتف أو الآيباد أو الحاسوب، ويعمل دون إنترنت.</p></span><button class="btn" id="insHome">تثبيت التطبيق</button></section>`;
   h+=`<button class="challenge" id="chal"><span class="em">🏆</span><span><h3>تحدي البطل</h3><p>20 سؤالاً من كل الكتاب (500 سؤال)</p></span><span class="go">ابدأ</span></button>`;
+  h+=`<div class="visits" id="visits" hidden></div>`;
   h+=`<p class="foot">مبني على كتاب العلوم للصف الخامس الابتدائي، الطبعة التاسعة 2025</p>`;
   app.innerHTML=h;
   app.querySelectorAll(".ch").forEach(b=>b.onclick=()=>chapter(+b.dataset.i,"sum"));
   document.getElementById("chal").onclick=challenge;
   const ih=document.getElementById("insHome");if(ih)ih.onclick=install;
+  paintStats();
   scrollTo(0,0);
 }
 
@@ -716,6 +739,7 @@ function confetti(){
 
 const _home=home;home=function(){app.removeAttribute("style");_home()};
 home();
+loadStats();
 </script>
 
 </body>
