@@ -3,6 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="دراسة كتاب العلوم للصف الخامس الابتدائي: ملخصات ورسوم وبطاقات و500 سؤال.">
+<meta name="theme-color" content="#7B1E2B">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="مختبر العلوم">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
 <title>مختبر علوم الخامس</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -199,6 +208,23 @@ button:focus-visible{outline-color:var(--btn)}
 .lbox img{max-width:100%;max-height:78vh;background:#FFFFFF;border-radius:14px}
 .lbox p{color:#FFFFFF;font-family:var(--display);font-size:1.2rem;margin:0;text-align:center}
 .lbox button{font-family:var(--display);font-weight:800;background:var(--btn);color:#FFFFFF;border-radius:14px;padding:6px 18px}
+/* install */
+.installcard{display:flex;align-items:center;gap:14px;background:var(--paper);border:2px dashed var(--btn);border-radius:22px;padding:14px 18px}
+.installcard .em{font-size:2.2rem;line-height:1}
+.installcard h3{font-size:1.15rem}
+.installcard p{margin:0;color:var(--muted);font-size:.95rem}
+.installcard .btn{margin-inline-start:auto;white-space:nowrap}
+@media (max-width:520px){.installcard{flex-wrap:wrap}.installcard .btn{width:100%}}
+.sheet{position:fixed;inset:0;z-index:30;background:rgba(20,10,12,.6);display:flex;align-items:flex-end;justify-content:center}
+.sheet-in{background:var(--paper);color:var(--ink);width:100%;max-width:560px;max-height:88vh;overflow:auto;border-radius:24px 24px 0 0;
+  padding-block:20px calc(20px + env(safe-area-inset-bottom,0px));padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:12px}
+@media (min-width:700px){.sheet{align-items:center}.sheet-in{border-radius:24px}}
+.sheet h3{font-size:1.35rem}
+.steps{margin:0;padding-inline-start:1.4em;display:flex;flex-direction:column;gap:8px}
+.steps .en{display:block;direction:ltr;text-align:right;font-family:system-ui,sans-serif;font-weight:700;color:var(--btn);font-size:.95rem}
+.sheet details{border:2px solid var(--line);border-radius:14px;padding:8px 12px}
+.sheet summary{font-family:var(--display);font-weight:700;cursor:pointer}
+.siteurl{direction:ltr;text-align:center;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:8px;font-family:system-ui,sans-serif;font-size:.9rem;word-break:break-all;user-select:all}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -468,6 +494,51 @@ function isDark(){const t=document.documentElement.dataset.theme;return t?t==="d
 function setTheme(t){document.documentElement.dataset.theme=t;try{localStorage.setItem(TKEY,t)}catch(e){}}
 try{const t=localStorage.getItem(TKEY);if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}
 
+/* ---------- install ---------- */
+const SITE="https://alialsaffarmosuluniversity.github.io/five/";
+let deferredPrompt=null;
+const isStandalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+const onSite=()=>location.hostname.endsWith("github.io");
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e});
+addEventListener("appinstalled",()=>{deferredPrompt=null;document.querySelectorAll(".needinstall").forEach(el=>el.hidden=true)});
+try{if("serviceWorker" in navigator&&onSite())navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}
+function device(){
+  const ua=navigator.userAgent;
+  if(/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1))return"ios";
+  if(/Android/.test(ua))return"android";
+  if(/Macintosh/.test(ua)&&/Safari/.test(ua)&&!/Chrome|Edg|Firefox/.test(ua))return"mac";
+  return"desktop";
+}
+const STEPS={
+ ios:["آيفون وآيباد",["افتح موقع التطبيق في متصفح سفاري.","اضغط زر المشاركة (مربع يخرج منه سهم للأعلى).<span class='en'>Share</span>","اختر «إضافة إلى الشاشة الرئيسية».<span class='en'>Add to Home Screen</span>","اضغط «إضافة».<span class='en'>Add</span>"]],
+ android:["أندرويد",["افتح موقع التطبيق في متصفح كروم.","اضغط النقاط الثلاث أعلى الشاشة ⋮.","اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».<span class='en'>Install app</span>","اضغط «تثبيت».<span class='en'>Install</span>"]],
+ desktop:["حاسوب ويندوز أو لينكس أو كروم بوك",["افتح موقع التطبيق في متصفح كروم أو إيدج.","اضغط أيقونة التثبيت في نهاية شريط العنوان، أو افتح القائمة ⋮.","اختر «تثبيت مختبر العلوم».<span class='en'>Install</span>"]],
+ mac:["حاسوب ماك",["افتح موقع التطبيق في متصفح سفاري.","من قائمة «ملف» اختر «إضافة إلى Dock».<span class='en'>File › Add to Dock</span>","أو استعمل متصفح كروم واتبع خطوات الحاسوب."]]
+};
+function installHelp(){
+  const d=device(),order=[d,...Object.keys(STEPS).filter(k=>k!==d)];
+  const list=k=>`<ol class="steps">${STEPS[k][1].map(x=>`<li>${x}</li>`).join("")}</ol>`;
+  const box=document.createElement("div");box.className="sheet";box.setAttribute("role","dialog");box.setAttribute("aria-label","تثبيت التطبيق");
+  box.innerHTML=`<div class="sheet-in"><h3>📲 ثبّت مختبر العلوم</h3>
+   ${onSite()?"":`<p style="margin:0">التثبيت يعمل من موقع التطبيق. افتح هذا الرابط أولاً:</p><div class="siteurl">${SITE}</div><div class="row"><a class="btn" href="${SITE}" target="_blank" rel="noopener" style="text-decoration:none">افتح موقع التطبيق</a><button class="btn ghost" id="cpy">نسخ الرابط</button></div>`}
+   <p style="margin:0;font-family:var(--display);font-weight:700">خطوات ${STEPS[d][0]}:</p>${list(d)}
+   ${order.slice(1).map(k=>`<details><summary>${STEPS[k][0]}</summary>${list(k)}</details>`).join("")}
+   <p style="margin:0;color:var(--muted);font-size:.95rem">بعد التثبيت يظهر التطبيق بأيقونته بين تطبيقاتك، ويعمل دون إنترنت.</p>
+   <button class="btn" id="cls">حسناً</button></div>`;
+  box.onclick=e=>{if(e.target===box)box.remove()};
+  document.body.appendChild(box);
+  box.querySelector("#cls").onclick=()=>box.remove();
+  const c=box.querySelector("#cpy");
+  if(c)c.onclick=()=>{const done=()=>{c.textContent="تم النسخ ✓"};
+    try{navigator.clipboard.writeText(SITE).then(done,()=>{selectUrl(box)})}catch(e){selectUrl(box)}};
+  box.querySelector("#cls").focus();
+}
+function selectUrl(box){const el=box.querySelector(".siteurl");const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r)}
+function install(){
+  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.finally(()=>{deferredPrompt=null});return}
+  installHelp();
+}
+
 /* ---------- state ---------- */
 const KEY="sci5-best-v1";
 let best={};
@@ -486,9 +557,11 @@ const logo=`<svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><path d="M1
 function topBar(back){
   bar.innerHTML=(back?`<button class="back" id="bk" aria-label="رجوع">→ رجوع</button>`:logo)+
    `<h1>مختبر العلوم<small>علوم الصف الخامس الابتدائي</small></h1>
+    ${isStandalone()?"":`<button class="themebtn needinstall" id="ins" aria-label="تثبيت التطبيق" title="تثبيت التطبيق">📲</button>`}
     <button class="themebtn" id="thm" aria-label="الوضع الليلي أو النهاري">${isDark()?"☀️":"🌙"}</button>
     <span class="starpill" title="مجموع النجوم"><b>★</b> ${totalStars()} / ${CH.length*3}</span>`;
   if(back)document.getElementById("bk").onclick=back;
+  const ib=document.getElementById("ins");if(ib)ib.onclick=install;
   document.getElementById("thm").onclick=()=>{setTheme(isDark()?"light":"dark");topBar(back)};
 }
 
@@ -504,11 +577,13 @@ function home(){
       h+=`<button class="ch" data-i="${i}" style="${col(i)}"><span class="em">${c.e}</span><span class="tx"><span class="no">${c.no}</span><h3>${c.t}</h3><span class="stars">${starRow(best[i]||0)}</span></span></button>`});
     h+=`</div></section>`;
   });
+  if(!isStandalone())h+=`<section class="installcard needinstall"><span class="em">📲</span><span><h3>ثبّت التطبيق على جهازك</h3><p>على الهاتف أو الآيباد أو الحاسوب، ويعمل دون إنترنت.</p></span><button class="btn" id="insHome">تثبيت التطبيق</button></section>`;
   h+=`<button class="challenge" id="chal"><span class="em">🏆</span><span><h3>تحدي البطل</h3><p>20 سؤالاً من كل الكتاب (500 سؤال)</p></span><span class="go">ابدأ</span></button>`;
   h+=`<p class="foot">مبني على كتاب العلوم للصف الخامس الابتدائي، الطبعة التاسعة 2025</p>`;
   app.innerHTML=h;
   app.querySelectorAll(".ch").forEach(b=>b.onclick=()=>chapter(+b.dataset.i,"sum"));
   document.getElementById("chal").onclick=challenge;
+  const ih=document.getElementById("insHome");if(ih)ih.onclick=install;
   scrollTo(0,0);
 }
 
