@@ -188,6 +188,17 @@ body{font-size:19px;font-weight:500;line-height:1.85}
 .hero.chal{background:var(--btn);color:var(--btn-ink)}
 .meter i{background:var(--btn)}
 button:focus-visible{outline-color:var(--btn)}
+/* book figures */
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.fig{margin:0;background:#FFFFFF;border:2px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;cursor:zoom-in;padding:0;text-align:right}
+.fig img{display:block;width:100%;height:180px;object-fit:contain;background:#FFFFFF;padding:6px}
+.fig.wide{grid-column:1/-1} .fig.wide img{height:auto;max-height:340px}
+.fig figcaption{background:var(--paper);border-top:2px solid var(--line);padding:6px 12px;font-size:.95rem;color:var(--ink);font-weight:500;line-height:1.5}
+.lbox{position:fixed;inset:0;z-index:30;background:rgba(20,10,12,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.lbox img{max-width:100%;max-height:78vh;background:#FFFFFF;border-radius:14px}
+.lbox p{color:#FFFFFF;font-family:var(--display);font-size:1.2rem;margin:0;text-align:center}
+.lbox button{font-family:var(--display);font-weight:800;background:var(--btn);color:#FFFFFF;border-radius:14px;padding:6px 18px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -446,6 +457,9 @@ quiz:[
  ["تلف التماثيل الأثرية بمياه الأمطار مثال على:",["التجوية الكيميائية","التجوية الفيزيائية","الترسيب","المد والجزر"],"مياه الأمطار تذيب الأملاح فيتغير تركيب الصخر."]]}
 ];
 
+const FIGS={"1a": [["c1a_1.jpg", "أجزاء الزهرة: الكأس والتويج والطلع والمتاع"], ["c1a_2.jpg", "التلقيح والإخصاب في الزهرة"], ["c1a_3.jpg", "بذرة الباقلاء من ذوات الفلقتين"], ["c1a_4.jpg", "القمح من ذوات الفلقة الواحدة"]], "1b": [["c1b_1.jpg", "حزازيات على جدار رطب"], ["c1b_2.jpg", "حزازيات فوق صخرة"], ["c1b_3.jpg", "أكياس الأبواغ على السطح السفلي لورقة السرخس"]], "2a": [["c2a_1.jpg", "العمود الفقري في الجهة الظهرية للسمكة"], ["c2a_2.jpg", "الضفدع من البرمائيات"], ["c2a_3.jpg", "الأفعى من الزواحف بلا أطراف"], ["c2a_4.jpg", "البط طائر يسبح فوق الماء"], ["c2a_5.jpg", "الثدييات ترضع صغارها"]], "2b": [["c2b_1.jpg", "الإسفنج من المساميات"], ["c2b_2.jpg", "دودة الأرض تهوي التربة"], ["c2b_3.jpg", "الصرصر من الحشرات"], ["c2b_4.jpg", "الفراشة متناظرة جانبياً"]], "3a": [["c3a_1.jpg", "الدورة الدموية: الشرايين والأوردة"], ["c3a_2.jpg", "القلب والأوعية الدموية"], ["c3a_3.jpg", "أغذية صحية لجهاز الدوران"]], "3b": [["c3b_1.jpg", "أعضاء الجهاز التنفسي"], ["c3b_2.jpg", "التبادل الغازي داخل الرئتين"], ["c3b_3.jpg", "دخان السيارات يضر الجهاز التنفسي"], ["c3b_4.jpg", "الربو مرض يصيب الجهاز التنفسي"]], "4a": [["c4a_1.jpg", "أعضاء الجهاز الهضمي"], ["c4a_2.jpg", "البنكرياس يفرز الإنسولين"], ["c4a_3.jpg", "الرياضة تحافظ على صحة الجهاز الهضمي"]], "4b": [["c4b_1.jpg", "أعضاء الجهاز البولي"], ["c4b_2.jpg", "المخللات غنية بالأملاح"]], "5a": [["c5a_1.jpg", "الذهب عنصر صلب"], ["c5a_2.jpg", "الزئبق عنصر سائل"], ["c5a_3.jpg", "النحاس من الفلزات"], ["c5a_4.jpg", "الكبريت من اللافلزات"], ["c5a_5.jpg", "السيليكون من أشباه الفلزات"]], "5b": [["c5b_1.jpg", "الكاربون: الماس والكرافيت"], ["c5b_2.jpg", "الكرافيت في أقلام الرصاص"], ["c5b_3.jpg", "الغواص يتنفس الأوكسجين"], ["c5b_4.jpg", "الهيدروجين وقود الصواريخ"], ["c5b_5.jpg", "الحديد يصدأ في الهواء"]], "6a": [["c6a_1.jpg", "ملح الطعام مركب"], ["c6a_2.jpg", "الماء مركب"], ["c6a_3.jpg", "احتراق الفحم ينتج أول أوكسيد الكاربون"]], "6b": [["c6b_1.jpg", "فصل برادة الحديد بالمغناطيس"], ["c6b_2.jpg", "عصير الليمون مخلوط متجانس"], ["c6b_3.jpg", "الغيوم مخلوط سائل مع غاز"], ["c6b_4.jpg", "الميداليات سبائك"], ["c6b_5.jpg", "الفصل بالترشيح"]], "7a": [["c7a_1.jpg", "عربة فارغة: احتكاك أقل"], ["c7a_2.jpg", "عربة محملة: احتكاك أكبر"], ["c7a_3.jpg", "تقليل السرعة في الأيام الممطرة"]], "7b": [["c7b_1.jpg", "الاحتكاك السكوني"], ["c7b_2.jpg", "الاحتكاك الانزلاقي"], ["c7b_3.jpg", "الاحتكاك التدحرجي"], ["c7b_4.jpg", "الشكل الانسيابي يقلل مقاومة الهواء"], ["c7b_5.jpg", "تزييت آلة الخياطة"]], "8a": [["c8a_1.jpg", "دلك البالون بالصوف"], ["c8a_2.jpg", "الشحنات المتشابهة تتنافر"], ["c8a_3.jpg", "التفريغ الكهربائي عند لمس مقبض الباب"], ["c8a_4.jpg", "البرق بين السحب"]], "8b": [["c8b_1.jpg", "دارة مفتوحة ودارة مغلقة"], ["c8b_2.jpg", "المصباح يضيء في الدارة المغلقة"], ["c8b_3.jpg", "محطة توليد الطاقة"]], "8c": [["c8c_1.jpg", "كل قطعة مغناطيس لها قطبان"], ["c8c_2.jpg", "الأقطاب المختلفة تتجاذب"], ["c8c_3.jpg", "الأقطاب المتشابهة تتنافر"], ["c8c_4.jpg", "صنع بوصلة بسيطة"]], "9a": [["c9a_1.jpg", "المحيطات على خريطة العالم"], ["c9a_2.jpg", "تضاريس قاع المحيط"], ["c9a_3.jpg", "قياس العمق بصدى الصوت"], ["c9a_4.jpg", "دورة الماء في الطبيعة"], ["c9a_5.jpg", "96% ماء و4% أملاح"]], "9b": [["c9b_1.jpg", "الوقود الأحفوري يلوث البيئة"], ["c9b_2.jpg", "ألواح الخلايا الشمسية"], ["c9b_3.jpg", "مراوح طاقة الرياح"], ["c9b_4.jpg", "الطاقة المائية من السدود"], ["c9b_5.jpg", "المد والجزر"], ["c9b_6.jpg", "ينبوع حار من حرارة الأرض الجوفية"]], "10a": [["c10a_1.jpg", "نرى أعلى السفينة أولاً"], ["c10a_2.jpg", "صورة الأرض من الفضاء"], ["c10a_3.jpg", "طبقات الأرض تشبه ثمرة الخوخ"], ["c10a_4.jpg", "أحافير أسماك"], ["c10a_5.jpg", "تطور الحياة عبر الحقب"]], "10b": [["c10b_1.jpg", "التجوية تفتت الصخور"], ["c10b_2.jpg", "جذور النباتات تفتت الصخور"], ["c10b_3.jpg", "الأمطار تتلف التماثيل الأثرية"], ["c10b_4.jpg", "الرياح تنقل الرمال (التعرية)"], ["c10b_5.jpg", "المياه الجارية تنقل الفتات"], ["c10b_6.jpg", "الترسيب يكوّن الكثبان"]]};
+const WIDE=new Set(["c1a_1.jpg","c1a_2.jpg","c1a_3.jpg","c3a_1.jpg","c3b_1.jpg","c4a_1.jpg","c4b_1.jpg","c8b_1.jpg","c9a_2.jpg","c9a_4.jpg","c10a_3.jpg","c10a_5.jpg"]);
+
 /* ---------- theme ---------- */
 const TKEY="sci5-theme";
 function isDark(){const t=document.documentElement.dataset.theme;return t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches}
@@ -518,13 +532,20 @@ function summary(i){
   pane().innerHTML=`<div style="display:flex;flex-direction:column;gap:16px">`+c.lessons.map((l,k)=>`
    <article class="lesson pop"><div class="lesson-h"><span class="n">الدرس ${["الأول","الثاني","الثالث"][k]}</span><h3>${l.t}</h3></div>
    <div class="idea"><b class="lb">💡 الفكرة الرئيسة</b>${l.idea}</div>
+   ${(FIGS[(i+1)+"abc"[k]]||[]).length?`<div class="figs">${FIGS[(i+1)+"abc"[k]].map(f=>`<button class="fig${WIDE.has(f[0])?" wide":""}" data-src="img/${f[0]}" data-cap="${f[1]}"><img src="img/${f[0]}" alt="${f[1]}" loading="lazy"><figcaption>${f[1]}</figcaption></button>`).join("")}</div>`:""}
    <ul class="pts">${l.pts.map(p=>`<li><span>${md(p)}</span></li>`).join("")}</ul>
    <div class="fact"><b class="lb">🤩 هل تعلم؟ </b>${l.fact}</div></article>`).join("")+
    `<div class="cta row"><button class="btn ghost" id="toFc">🃏 راجع الكلمات</button><button class="btn" id="toQ">✏️ اختبر نفسك</button></div></div>`;
+  pane().querySelectorAll(".fig").forEach(b=>b.onclick=()=>zoom(b.dataset.src,b.dataset.cap));
   document.getElementById("toFc").onclick=()=>chapter(i,"fc");
   document.getElementById("toQ").onclick=()=>chapter(i,"quiz");
 }
 
+function zoom(src,cap){
+  const d=document.createElement("div");d.className="lbox";d.setAttribute("role","dialog");
+  d.innerHTML=`<img src="${src}" alt="${cap}"><p>${cap}</p><button>✕ إغلاق</button>`;
+  d.onclick=()=>d.remove();document.body.appendChild(d);d.querySelector("button").focus();
+}
 function cards(i){
   const v=CH[i].vocab;let k=0;
   pane().innerHTML=`<div class="fc-wrap"><p class="fc-hint">اقرأ الكلمة وتذكّر معناها، ثم اضغط على البطاقة لتقلبها.</p>
